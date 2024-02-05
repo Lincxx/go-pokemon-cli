@@ -22,22 +22,41 @@ func startRelp() {
 			continue
 		}
 
-		command := cleaned[0]
+		commandName := cleaned[0]
 
-		switch command {
-		case "help":
-			fmt.Println("Welcome to the Pokedex help menu")
-			fmt.Println("Here are your available commands")
-			fmt.Println(" - help")
-			fmt.Println(" - exit")
-			fmt.Println("")
-		case "exit":
-			// ending the program
-			os.Exit(0)
-		default:
-			fmt.Println("invalid command")
+		avialableCommands := getCommands()
+
+		//lookup key in map
+		cmd, ok := avialableCommands[commandName]
+
+		//if not ok return an error
+		if !ok {
+			fmt.Println("Invalid command")
+			continue
 		}
 
+		cmd.callback()
+	}
+}
+
+type cliCommand struct {
+	name        string
+	description string
+	callback    func()
+}
+
+func getCommands() map[string]cliCommand {
+	return map[string]cliCommand{
+		"help": {
+			name:        "help",
+			description: "Displays a help message",
+			callback:    commandHelp,
+		},
+		"exit": {
+			name:        "exit",
+			description: "Exit the Pokedex",
+			callback:    commandExit,
+		},
 	}
 }
 
