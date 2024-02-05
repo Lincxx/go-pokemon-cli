@@ -22,11 +22,22 @@ func startRelp() {
 			continue
 		}
 
-		if text == "exit" {
-			break
+		command := cleaned[0]
+
+		switch command {
+		case "help":
+			fmt.Println("Welcome to the Pokedex help menu")
+			fmt.Println("Here are your available commands")
+			fmt.Println(" - help")
+			fmt.Println(" - exit")
+			fmt.Println("")
+		case "exit":
+			// ending the program
+			os.Exit(0)
+		default:
+			fmt.Println("invalid command")
 		}
 
-		fmt.Println(cleaned)
 	}
 }
 
